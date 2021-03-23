@@ -24,6 +24,8 @@ title
 - [x] ```code```
 - [ ] title\n----- 
 .
+[local-link](./test-schem)
+.
 First Term
 : This is the definition of the first term.
 
@@ -44,5 +46,5 @@ Tables:
 | Header      | Title       | Here's this   |
 | Paragraph   | Text        | And more      |
 .
-![background](/articles/test.jpg "tv-screen")
+![background=400x500](/articles/test/test.jpg "tv-screen")
 .

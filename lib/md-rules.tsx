@@ -104,7 +104,7 @@ let idheading = {
 
 let image = {
     order: rules.image.order - 0.5,
-    match: inlineRegex(/^!\[([^=]+)(?:=(\d+)x(\d+)?)?\]\(\s*<?((?:\([^)]*\)|[^\s\\]|\\.)*?)>?(?:\s+["']([^\s"]+)['"]\s*)?\)/),
+    match: inlineRegex(/^!\[([^=]+)(?:=(\d+)x(\d+)?)?\]\(\s*<?((?:\([^)]*\)|[^\s\\]|\\.)*?)>?(?:\s+["']([^"]+)['"]\s*)?\)/),
     parse: (capture, parse, state) => {
         return {
             alt: capture[1],
@@ -119,7 +119,7 @@ let image = {
 
 export default {
     bold, italic, underline, strikethrough,
-    //locallink, 
+    locallink, 
     idheading,
     newline,
     checkbox,
