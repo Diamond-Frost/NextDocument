@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schematic>
     <property type="text" value="Description"></property>
-    <property type="int" value="Height" unit="cm">4</property>
-    <property type="int" value="Width" unit="cm">10</property>
     <property type="bool" value="Is open?">true</property>
-    <section value="">
-
+    <section value="Dimensions">
+        <property type="int" value="Width" unit="cm">10</property>
+        <property type="int" value="Height" unit="cm">4</property>
+        <property type="int" value="Length" unit="cm">5</property>
     </section>
 </schematic>

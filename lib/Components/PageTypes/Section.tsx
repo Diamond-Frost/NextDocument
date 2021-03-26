@@ -40,6 +40,17 @@ export default function SectionPage({content}: {content: Section}) {
                 </code>
             </li>
         )}
+
+        {/* Picture */}
+        {content.picture.map(v =>     
+            <li>
+                <em>
+                    <code>
+                        <Link href={v.path}>{v.name}</Link>
+                    </code>
+                </em>
+            </li>
+        )}
     </ul>
     );
 }

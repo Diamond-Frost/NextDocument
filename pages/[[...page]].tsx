@@ -3,17 +3,18 @@ import PageFooter from "../lib/Components/PageFooter";
 
 import DocumentPage from "../lib/Components/PageTypes/Document";
 import ImagePage from "../lib/Components/PageTypes/Image";
+import PicturePage from "../lib/Components/PageTypes/Picture";
 import SectionPage from "../lib/Components/PageTypes/Section";
 import SchematicPage from "../lib/Components/PageTypes/Schematic";
 
-import {Image, Document, Section, Schematic} from "../lib/Content/InterfaceContent";
+import { Image, Document, Section, Schematic, Picture } from "../lib/Content/InterfaceContent";
 import { getPaths, getSection } from "../lib/Content/GetContent";
-import { global_root } from "../lib/globals";
+import { document_ext, global_root, image_ext, picture_ext, schematic_ext } from "../lib/globals";
 import { resolve, extname } from "path";
 
 type PageProps = {
-    type: 'image' | 'document' | 'section' | 'schematic',
-    content: Image | Document | Section | Schematic, 
+    type: 'image' | 'document' | 'section' | 'schematic' | 'picture',
+    content: Image | Document | Section | Schematic | Picture, 
     path: string
 }
 
@@ -21,6 +22,7 @@ export default function Page({type, content, path}: PageProps) {
     let pages = {
         document:  (<DocumentPage  content={(content as Document)} />),
         image:     (<ImagePage     content={(content as Image)} />),
+        picture:   (<PicturePage   content={(content as Picture)} />),
         schematic: (<SchematicPage content={(content as Schematic)} />),
         section:   (<SectionPage   content={(content as Section)} />),
     }
@@ -63,6 +65,13 @@ export async function getStaticProps({params}: {params: {page: string[]}}) {
                 contentType = "image";
                 return;
             }
+
+            let pmatch = (rootSection as Section).picture.filter(i => i.name === v);
+            if (pmatch.length != 0) {
+                rootSection = pmatch[0];
+                contentType = "picture";
+                return;
+            }
         }
     });
 
@@ -76,13 +85,20 @@ export async function getStaticProps({params}: {params: {page: string[]}}) {
 }
 
 export async function getStaticPaths() {
-    let paths = [
+    let paths_ext = [
         '/', 
         ...getPaths('', global_root)
             .map(v => v.replace(resolve(global_root), ''))
-    ]
-        .map(v => v.replace(extname(v), ''))
-        .map(v => ({params: {page: v.split(/\/|\\/).slice(1)}}));
+    ];
+    let pure = paths_ext.map(v => v.replace(extname(v), ''));
+    
+    paths_ext = paths_ext
+        .map(v => v.replace(document_ext, '.doc'))
+        .map(v => v.replace(schematic_ext, '.sc'))
+        .map(v => v.replace(picture_ext, '.pic'))
+        .map(v => v.replace(image_ext, '.img'));
+
+    let paths = [...pure, ...paths_ext].map(v => ({params: {page: v.split(/\/|\\/).slice(1)}}));
     console.log(paths.map(v => v.params.page));
     return {
         paths,
